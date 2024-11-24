@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2024 Dixmit
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
@@ -104,9 +104,7 @@
                                                     class="text-danger"
                                                     t-elif="record.state.raw_value == 'error'"
                                                 > Error
-                                                    on <field
-                                                        name="processed_on"
-                                                    />
+                                                    on <field name="processed_on" />
                                                 </span>
                                                 <span
                                                     class="text-warning"

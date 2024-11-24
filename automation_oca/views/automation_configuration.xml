@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2024 Dixmit
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
@@ -78,9 +78,12 @@
                     invisible="state != 'periodic'"
                     role="alert"
                 >
-                    <div class="px-4"> This a periodical configuration. New records are generated
+                    <div
+                        class="px-4"
+                    > This a periodical configuration. New records are generated
                         automatically. Next execution is programed for <field
-                            name="next_execution_date" />
+                            name="next_execution_date"
+                        />
                     </div>
                 </div>
                 <sheet>
@@ -333,7 +336,9 @@
                                             <div
                                                 class="o_automation_kanban_child_add_title card-footer"
                                             >
-                                                <i class="fa fa-plus-circle" /> Add child activity </div>
+                                                <i
+                                                    class="fa fa-plus-circle"
+                                                /> Add child activity </div>
                                             <div
                                                 class="o_automation_kanban_child_add_buttons"
                                             >
