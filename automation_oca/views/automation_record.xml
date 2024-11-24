@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright 2024 Dixmit
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
@@ -15,15 +15,17 @@
                         name="web_ribbon"
                         title="Test"
                         bg_color="text-bg-danger"
-                        attrs="{'invisible': [('is_test', '=', False)]}"
+                        invisible="is_test"
                     />
 
                     <div class="oe_title">
-                        <h1><field
+                        <h1>
+                            <field
                                 name="resource_ref"
                                 required="1"
                                 options="{'hide_model': True}"
-                            /></h1>
+                            />
+                        </h1>
                     </div>
                     <group>
                         <field name="configuration_id" />
@@ -101,8 +103,8 @@
                                                 <span
                                                     class="text-danger"
                                                     t-elif="record.state.raw_value == 'error'"
-                                                >
-                                                    Error on <field
+                                                > Error
+                                                    on <field
                                                         name="processed_on"
                                                     />
                                                 </span>
@@ -121,7 +123,8 @@
                                                 <span t-else="" class="text-primary">
                                                     <i
                                                         t-att-class="record.trigger_type_data.raw_value.icon"
-                                                    /> <t
+                                                    />
+                                                    <t
                                                         t-esc="record.trigger_type_data.raw_value.message"
                                                     />
                                                 </span>
@@ -143,11 +146,15 @@
                                             <div
                                                 class="o_automation_kanban_header_title"
                                             >
-                                                <h3 class="mb0 mt0"><a
+                                                <h3 class="mb0 mt0">
+                                                    <a
                                                         type="edit"
                                                         class="oe_kanban_action oe_kanban_action_a"
                                                         t-att-title="record.name.raw_value"
-                                                    ><field name="name" /></a></h3>
+                                                    >
+                                                        <field name="name" />
+                                                    </a>
+                                                </h3>
                                                 <div t-esc="record.step_type.value" />
                                             </div>
                                             <div
@@ -186,7 +193,8 @@
                                                         t-att-title="state.name"
                                                         role="img"
                                                         t-att-aria-label="state.name"
-                                                    /> <t t-esc="state.name" />
+                                                    />
+                                                    <t t-esc="state.name" />
                                                 </div>
                                             </t>
                                         </div>
@@ -271,7 +279,7 @@
         <field name="view_mode">tree,form</field>
         <field
             name="domain"
-        >[('configuration_id', '=', active_id), ('is_test', '=', False)]</field>
+        >[('configuration_id', '=', id), ('is_test', '=', False)]</field>
         <field name="context">{}</field>
     </record>
     <record
@@ -283,7 +291,7 @@
         <field name="view_mode">tree,form</field>
         <field
             name="domain"
-        >[('configuration_id', '=', active_id), ('is_test', '=', True)]</field>
+        >[('configuration_id', '=', id), ('is_test', '=', True)]</field>
         <field name="context">{}</field>
     </record>
 
