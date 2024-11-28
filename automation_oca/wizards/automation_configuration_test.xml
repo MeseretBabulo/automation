@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright 2024 Dixmit
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
@@ -10,14 +10,17 @@
                 <sheet>
 
                     <div class="oe_title">
-                        <h2><field
+                        <h2>
+                            <field
                                 name="resource_ref"
                                 required="1"
                                 options="{'hide_model': True}"
-                            /></h2>
+                            />
+                        </h2>
                     </div>
                     <div class="row text-center">
-                        On tests, mails will not be sent, but templates will be generated and actions will be executed.
+                        On tests, mails will not be sent, but templates will be generated and
+                        actions will be executed.
                     </div>
                     <group>
                         <field name="configuration_id" invisible="1" />
@@ -41,7 +44,7 @@
         <field name="name">Test Configuration</field>
         <field name="res_model">automation.configuration.test</field>
         <field name="view_mode">form</field>
-        <field name="context">{'default_configuration_id': active_id}</field>
+        <field name="context">{'default_configuration_id': id}</field>
         <field name="target">new</field>
     </record>
 

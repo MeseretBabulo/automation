@@ -10,7 +10,7 @@ class TestAutomationAction(AutomationTestCase):
         We will check the execution of the tasks and that we cannot execute them again
         """
         activity = self.create_server_action()
-        self.configuration.editable_domain = "[('id', '=', %s)]" % self.partner_01.id
+        self.configuration.editable_domain = f"[('id', '=', {self.partner_01.id})]"
         self.configuration.start_automation()
         self.env["automation.configuration"].cron_automation()
         self.assertTrue(self.partner_01.comment)

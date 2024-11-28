@@ -85,7 +85,6 @@ class AutomationRecord(models.Model):
             offset=offset,
             limit=limit,
             order=order,
-            count=False,
             access_rights_uid=access_rights_uid,
         )
         if self.env.is_system():
@@ -107,11 +106,10 @@ class AutomationRecord(models.Model):
         )  # {res_model: {res_id: set(ids)}}
         for sub_ids in self._cr.split_for_in_conditions(ids):
             self._cr.execute(
-                """
+                f"""
                             SELECT id, res_id, model
-                            FROM "%s"
-                            WHERE id = ANY (%%(ids)s)"""
-                % self._table,
+                            FROM "{self._table}"
+                            WHERE id = ANY ({list(sub_ids)})""",
                 dict(ids=list(sub_ids)),
             )
             for eid, res_id, model in self._cr.fetchall():
@@ -125,10 +123,8 @@ class AutomationRecord(models.Model):
             if missing:
                 for res_id in missing.ids:
                     _logger.warning(
-                        "Deleted record %s,%s is referenced by automation.record %s",
-                        model,
-                        res_id,
-                        list(targets[res_id]),
+                        f"Deleted record {model},{res_id} is referenced by automation.\
+                            record {list(targets[res_id])}"
                     )
                 recs = recs - missing
             allowed = (
@@ -151,10 +147,14 @@ class AutomationRecord(models.Model):
             )
         # Restore original ordering
         result = [x for x in orig_ids if x in result]
-        return len(result) if count else list(result)
+        return (
+            len(result)
+            if count
+            else super()._search([("id", "in", result)], order=order)
+        )
 
     def read(self, fields=None, load="_classic_read"):
-        """Override to explicitely call check_access_rule, that is not called
+        """Override to explicitly call check_access_rule, that is not called
         by the ORM. It instead directly fetches ir.rules and apply them."""
         self.check_access_rule("read")
         return super().read(fields=fields, load=load)
