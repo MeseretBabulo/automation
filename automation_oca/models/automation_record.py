@@ -10,7 +10,6 @@ _logger = logging.getLogger(__name__)
 
 
 class AutomationRecord(models.Model):
-
     _name = "automation.record"
     _description = "Automation Record"
 
@@ -62,7 +61,7 @@ class AutomationRecord(models.Model):
     def _compute_resource_ref(self):
         for record in self:
             if record.model and record.model in self.env:
-                record.resource_ref = "%s,%s" % (record.model, record.res_id or 0)
+                record.resource_ref = f"{record.model},{record.res_id or 0}"
             else:
                 record.resource_ref = None
 

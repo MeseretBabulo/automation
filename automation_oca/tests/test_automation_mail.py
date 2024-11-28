@@ -38,7 +38,8 @@ Content-Transfer-Encoding: quoted-printable
  <head>=20
   <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8" />
  </head>=20
- <body style=3D"margin: 0; padding: 0; background: #ffffff;-webkit-text-size-adjust: 100%;">=20
+ <body style=3D"margin: 0; \
+     padding: 0; background: #ffffff;-webkit-text-size-adjust: 100%;">=20
 
   <p>I would gladly answer to your mass mailing !</p>
 
@@ -274,7 +275,8 @@ class TestAutomationMail(AutomationTestCase, MockEmail, HttpCase):
 
     def test_no_open(self):
         """
-        Now we will check the not open validation when it is not opened (should be executed)
+        Now we will check the not open validation when it is not opened \
+            (should be executed)
         """
         activity = self.create_mail_activity()
         child_activity = self.create_mail_activity(
@@ -374,12 +376,7 @@ class TestAutomationMail(AutomationTestCase, MockEmail, HttpCase):
         )
         self.assertTrue(tracker)
         self.url_open(
-            "/r/%s/au/%s/%s"
-            % (
-                tracker.code,
-                record_activity.id,
-                record_activity._get_mail_tracking_token(),
-            )
+            f"/r/{tracker.code}/au/{record_activity.id}/{record_activity._get_mail_tracking_token()}"
         )
         self.assertEqual("open", record_activity.mail_status)
         self.assertEqual(
@@ -404,12 +401,7 @@ class TestAutomationMail(AutomationTestCase, MockEmail, HttpCase):
         self.assertEqual(1, self.configuration.click_count)
         # Now we will check that a second click does not generate a second log
         self.url_open(
-            "/r/%s/au/%s/%s"
-            % (
-                tracker.code,
-                record_activity.id,
-                record_activity._get_mail_tracking_token(),
-            )
+            f"/r/{tracker.code}/au/{record_activity.id}/{record_activity._get_mail_tracking_token()}"
         )
         self.assertEqual(
             1,
@@ -451,24 +443,13 @@ class TestAutomationMail(AutomationTestCase, MockEmail, HttpCase):
             [("url", "=", "https://www.twitter.com")]
         )
         self.assertTrue(tracker)
-        self.url_open(
-            "/r/%s/au/%s/1234"
-            % (
-                tracker.code,
-                record_activity.id,
-            )
-        )
+        self.url_open(f"/r/{tracker.code}/au/{record_activity.id}/1234")
         self.assertEqual("sent", record_activity.mail_status)
         self.assertFalse(record_child_activity.scheduled_date)
         # Now we check the case where the code is not found
         tracker.unlink()
         self.url_open(
-            "/r/%s/au/%s/%s"
-            % (
-                tracker.code,
-                record_activity.id,
-                record_activity._get_mail_tracking_token(),
-            )
+            f"/r/{tracker.code}/au/{record_activity.id}/{record_activity._get_mail_tracking_token()}"
         )
         self.assertEqual("sent", record_activity.mail_status)
         self.assertFalse(record_child_activity.scheduled_date)
@@ -532,12 +513,7 @@ class TestAutomationMail(AutomationTestCase, MockEmail, HttpCase):
             [("url", "=", "https://www.twitter.com")]
         )
         self.url_open(
-            "/r/%s/au/%s/%s"
-            % (
-                tracker.code,
-                record_activity.id,
-                record_activity._get_mail_tracking_token(),
-            )
+            f"/r/{tracker.code}/au/{record_activity.id}/{record_activity._get_mail_tracking_token()}"
         )
         self.env["automation.record.step"]._cron_automation_steps()
         self.assertEqual("rejected", record_child_activity.state)
@@ -555,7 +531,7 @@ class TestAutomationMail(AutomationTestCase, MockEmail, HttpCase):
             )
         ) as f:
             self.assertTrue(f.resource_ref)
-            f.resource_ref = "%s,%s" % (self.partner_01._name, self.partner_01.id)
+            f.resource_ref = f"{self.partner_01._name},{self.partner_01.id}"
         wizard = f.save()
         wizard_action = wizard.test_record()
         record = self.env[wizard_action["res_model"]].browse(wizard_action["res_id"])

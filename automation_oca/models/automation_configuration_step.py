@@ -14,7 +14,6 @@ from odoo.tools.safe_eval import safe_eval
 
 
 class AutomationConfigurationStep(models.Model):
-
     _name = "automation.configuration.step"
     _description = "Automation Steps"
     _order = "trigger_interval_hours ASC"
@@ -287,8 +286,8 @@ class AutomationConfigurationStep(models.Model):
     @api.model
     def _trigger_types(self):
         """
-        This function will return a dictionary that map trigger_types to its configurations.
-        Each trigger_type can contain:
+        This function will return a dictionary that map trigger_types \
+            to its configurations. Each trigger_type can contain:
         - name (Required field)
         - step type: List of step types that succeed after this.
           If it is false, it will work for all step types,

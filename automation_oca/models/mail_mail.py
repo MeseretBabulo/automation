@@ -10,7 +10,6 @@ from odoo import api, fields, models, tools
 
 
 class MailMail(models.Model):
-
     _inherit = "mail.mail"
 
     automation_record_step_id = fields.Many2one("automation.record.step")
@@ -36,16 +35,15 @@ class MailMail(models.Model):
                 if parsed.scheme.startswith("http") and parsed.path.startswith("/r/"):
                     new_href = href.replace(
                         url,
-                        "%s/au/%s/%s"
-                        % (url, str(self.automation_record_step_id.id), token),
+                        f"{url}/au/{str(self.automation_record_step_id.id)}/{token}",
                     )
                     body = body.replace(
                         markupsafe.Markup(href), markupsafe.Markup(new_href)
                     )
             body = tools.append_content_to_html(
                 body,
-                '<img src="%s"/>'
-                % self.automation_record_step_id._get_mail_tracking_url(),
+                f'<img\
+                    src="{self.automation_record_step_id._get_mail_tracking_url()}"/>',
                 plaintext=False,
             )
         return body

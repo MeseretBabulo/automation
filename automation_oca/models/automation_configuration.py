@@ -7,14 +7,19 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools.safe_eval import (
     datetime as safe_datetime,
+)
+from odoo.tools.safe_eval import (
     dateutil as safe_dateutil,
+)
+from odoo.tools.safe_eval import (
     safe_eval,
+)
+from odoo.tools.safe_eval import (
     time as safe_time,
 )
 
 
 class AutomationConfiguration(models.Model):
-
     _name = "automation.configuration"
     _description = "Automation Configuration"
     _inherit = ["mail.thread"]
@@ -223,8 +228,8 @@ class AutomationConfiguration(models.Model):
 
     def _get_automation_records_to_create(self):
         """
-        We will find all the records that fulfill the domain but don't have a record created.
-        Also, we need to check by autencity field if defined.
+        We will find all the records that fulfill the domain but don't have a record \
+            created.Also, we need to check by authenticity field if defined.
 
         In order to do this, we will add some extra joins on the query of the domain
         """
@@ -245,7 +250,7 @@ class AutomationConfiguration(models.Model):
             "({rhs}.is_test IS NULL OR NOT {rhs}.is_test)",
             (Record._name, self.id),
         )
-        query.add_where("{}.id is NULL".format(alias))
+        query.add_where(f"{alias}.id is NULL")
         if self.field_id:
             # In case of unicity field defined, we need to add this
             # left join to find already created records
@@ -266,7 +271,7 @@ class AutomationConfiguration(models.Model):
                 "({rhs}.is_test IS NULL OR NOT {rhs}.is_test)",
                 (Record._name, self.id),
             )
-            query.add_where("{}.id is NULL".format(alias2))
+            query.add_where(f"{alias2}.id is NULL")
             from_clause, where_clause, params = query.get_sql()
             # We also need to find with a group by in order to avoid duplication
             # when we have both records created between two executions
@@ -278,7 +283,7 @@ class AutomationConfiguration(models.Model):
                 (" ORDER BY %s" % self.order) if query.order else "",
                 (" LIMIT %d" % self.limit) if query.limit else "",
                 (" OFFSET %d" % self.offset) if query.offset else "",
-                "%s.%s" % (query._tables[Record._table], self.field_id.name),
+                f"{query._tables[Record._table]}.{self.field_id.name}",
             )
         else:
             query_str, params = query.select()
